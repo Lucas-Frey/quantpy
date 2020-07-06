@@ -1,4 +1,5 @@
 from data.base.BaseProcessor import BaseProcessor
+from data.Yahoo.YahooQuoteReader import YahooQuoteReader
 from data.Yahoo.YahooQuote import YahooQuote
 
 import pandas as pd
@@ -6,17 +7,17 @@ import pandas as pd
 
 class YahooQuoteProcessor(BaseProcessor):
 
-    def __init__(self, symbol: str, response: object,
+    def __init__(self, symbol: str, response: object, reader: YahooQuoteReader,
                  include_events: bool = False, include_prepost: bool = False):
 
-        self._include_prepost = include_prepost
-        self._include_events = include_events
+        self._include_prepost = reader.include_prepost
+        self._include_events = reader.include_events
 
-        super().__init__(symbol, response)
+        super().__init__(symbol, response, reader)
 
     def process(self):
-        response_json = self._response.json()
-        yahoo_quote = YahooQuote(self._symbol)
+        response_json = self.response.json()
+        yahoo_quote = YahooQuote(self.symbol)
 
         quote_dict = self.parse_response(response_json)
 
@@ -50,7 +51,8 @@ class YahooQuoteProcessor(BaseProcessor):
         # Get the timestamp (datetime) for each quote entry in the data and parse it.
         quote_df['date'] = dates
 
-        quote_df.reindex(columns=['date', 'open', 'high', 'low', 'close', 'adjclose', 'volume'])
+        quote_df = quote_df.reindex(columns=['date', 'open', 'high', 'low',
+                                             'close', 'adjclose', 'volume'])
 
         return quote_df
 
