@@ -1,2 +1,6 @@
+from data.Yahoo.YahooQuoteReader import YahooQuoteReader
+
 if __name__ == '__main__':
-    action = input('Please select an action!')
+    a = YahooQuoteReader('AAPL')
+
+    data = a.read()
