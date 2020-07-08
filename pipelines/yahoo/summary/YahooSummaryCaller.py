@@ -1,9 +1,13 @@
-from data.base.BaseReader import BaseReader
+from pipelines.base.BaseReader import BaseReader
 
 import re
 
 
-class YahooSummaryReader(BaseReader):
+class YahooSummaryCaller(BaseReader):
+    """
+    Class for reading a yahoo Summary from the A.P.I. or from the
+    dataset.
+    """
 
     def __init__(self, symbol,
                  include_asset_profile=False,
@@ -34,9 +38,9 @@ class YahooSummaryReader(BaseReader):
                  include_net_share_purchase_activity=False,
                  include_all=False):
         """
-        Constructor for the YahooSummaryReader class to read copmany summaries from the Yahoo Finance API.
-        :param symbols: The company(s) for which summaries are to be retrieved.
-        :type symbols: Union[str, list]
+        Constructor for the YahooSummaryReader class to read copmany summaries from the yahoo Finance API.
+        :param symbol: The company(s) for which summaries are to be retrieved.
+        :type symbol: Union[str, list]
         :param include_asset_profile: Include a company's profile and company officer list.
         :type include_asset_profile: bool
         :param include_income_statement_history: Include a company's income statement history?
@@ -55,7 +59,7 @@ class YahooSummaryReader(BaseReader):
         :type include_earnings: bool
         :param include_earnings_history: Include a company's earnings history.
         :type include_earnings_history: bool
-        :param include_financial_data: Include a company's financial data.
+        :param include_financial_data: Include a company's financial pipelines.
         :type include_financial_data: bool
         :param include_default_key_statistics: Include a company's key statistics.
         :type include_default_key_statistics: bool
@@ -129,7 +133,6 @@ class YahooSummaryReader(BaseReader):
         self.include_all = include_all
 
         # Set the pattern used to define the response dataframe schema formatting.
-        self._pep_pattern = re.compile(r'(?<!^)(?=[A-Z])')
 
         # Call the super class's constructor.
         super().__init__(symbol)
@@ -137,7 +140,7 @@ class YahooSummaryReader(BaseReader):
     @property
     def url(self):
         """
-        Property to get the url for the Yahoo Finance summary API. The API needs to be formatted with a symbol.
+        Property to get the url for the yahoo Finance summary API. The API needs to be formatted with a symbol.
         :return: A string containing the API url that needs to be formatted.
         :rtype: str
         """
@@ -147,7 +150,7 @@ class YahooSummaryReader(BaseReader):
     @property
     def params(self):
         """
-        Property to get a string containing the comma separated list of parameters for the Yahoo Finance summary API.
+        Property to get a string containing the comma separated list of parameters for the yahoo Finance summary API.
         :return: A dict containing a modules key with a string containing the comma separated list of parameters value.
         :rtype: dict
         """

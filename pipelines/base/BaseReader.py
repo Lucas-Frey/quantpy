@@ -4,7 +4,7 @@ import requests
 class BaseReader(object):
 
     def __init__(self, symbol: str, timeout: float = 10.0):
-        self.symbol = symbol
+        self.symbol = symbol.lower()
         self.timeout = timeout
 
     @property

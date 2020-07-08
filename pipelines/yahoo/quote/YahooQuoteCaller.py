@@ -1,7 +1,4 @@
-import datetime
-import time
-import pandas as pd
-from data.base.BaseReader import BaseReader
+from pipelines.base.BaseReader import BaseReader
 
 
 class YahooQuoteReader(BaseReader):
